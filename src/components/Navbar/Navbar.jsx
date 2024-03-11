@@ -14,7 +14,6 @@ export default function Navbar() {
         localStorage.removeItem('userToken')
         setUserToken(null)
         navigate("/login")
-
     }
 
 
