@@ -11,6 +11,8 @@ import { authContext } from '../../context/AuthContext';
 export default function Login() {
     const [isLoading, setLoading] = useState(false)
     let {userToken, setUserToken}= useContext(authContext)
+    let navigate = useNavigate()
+
 
     let validationSchema = Yup.object({
         email: Yup.string().email('Invalide Email').required("This field Required"),
@@ -25,28 +27,23 @@ export default function Login() {
         onSubmit: submitLogin
     })
 
-    let navigate = useNavigate()
-
     async function submitLogin(values) {
         console.log("submitting ...");
         setLoading(true)
         try {
             let res = await axios.post('https://first-posts-backend.onrender.com/api/v1/users/login', values)
-            console.log(res.data.token);
-
             if (res.status == 200) {
                 let token = res.data.token
                 localStorage.setItem('userToken', token)
                 setUserToken(token)
-                console.log(userToken);
                 navigate('/')
             }
+            setLoading(false)
         } catch (error) {
             console.log(error);
+            setLoading(false)
         }
-        setLoading(false)
     }
-
 
     return (
         < > 
@@ -60,7 +57,6 @@ export default function Login() {
                     value={formik.values.email}
                     name='email' className='block w-3/6 my-2 p-2 border border-gray-300 rounded-md m-auto focus:ring-red-500 focus:border-orange-300' />
                 {formik.errors.email && formik.touched.email ? <div className='w-2/6 m-auto py-1 rounded-md text-white text-center justify-center grid-cols-none alert alert-error'>{formik.errors.email}</div> : null}
-
 
                 <label htmlFor="userPassword">Password:</label>
                 <input type="password"

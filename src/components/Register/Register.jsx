@@ -6,10 +6,9 @@ import axios from 'axios';
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom'
 
-
 export default function Register() {
     const [isLoading, setLoading] = useState(false)
-
+    let navigate = useNavigate()
 
     let validationSchema = Yup.object({
         name: Yup.string().max(20, 'Must be 20 characters or less')
@@ -31,21 +30,19 @@ export default function Register() {
         onSubmit: submitRegister
     })
 
-    let navigate = useNavigate()
-
     async function submitRegister(values) {
         console.log("submitting ...");
         setLoading(true)
         try {
             let res = await axios.post('https://first-posts-backend.onrender.com/api/v1/users/register', values)
-            console.log(res);
             if (res.status == 201) {
                 navigate('/login')
             }
+            setLoading(false)
         } catch (error) {
             console.log(error);
+            setLoading(false)
         }
-        setLoading(false)
     }
 
 
