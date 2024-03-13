@@ -5,12 +5,14 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom'
-import { authContext } from '../../context/AuthContext';
+import { useAuth } from '../../Hooks/useAuth';
+// import { authContext } from '../../context/AuthContext';
 
 
 export default function Login() {
     const [isLoading, setLoading] = useState(false)
-    let {userToken, setUserToken}= useContext(authContext)
+    // let {userToken, setUserToken}= useContext(authContext)
+    const {login} = useAuth()
     let navigate = useNavigate()
 
 
@@ -34,9 +36,10 @@ export default function Login() {
             let res = await axios.post('https://first-posts-backend.onrender.com/api/v1/users/login', values)
             if (res.status == 200) {
                 let token = res.data.token
-                localStorage.setItem('userToken', token)
-                setUserToken(token)
-                navigate('/')
+                // localStorage.setItem('userToken', token)
+                // setUserToken(token)
+                login(token)
+            navigate('/')
             }
             setLoading(false)
         } catch (error) {

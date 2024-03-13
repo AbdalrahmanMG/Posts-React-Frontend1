@@ -6,17 +6,18 @@ import axios from 'axios';
 import { Button } from 'flowbite-react';
 import { useNavigate, useParams } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
-import { authContext } from '../../context/AuthContext';
+// import { authContext } from '../../context/AuthContext';
 import { storage } from './../../firebase/Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { v4 } from 'uuid'
+import { useAuth } from '../../Hooks/useAuth';
 
 
 export default function EditPost() {
     const [isLoading, setLoading] = useState(false)
     const { id } = useParams()
     const [post, setPost] = useState(null)
-    let { userToken } = useContext(authContext)
+    let { userToken } = useAuth()
     let navigate = useNavigate()
     const [imageUpload, setImageUpload] = useState(null)
 

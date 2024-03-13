@@ -6,16 +6,17 @@ import axios from 'axios';
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
-import { authContext } from '../../context/AuthContext';
+// import { authContext } from '../../context/AuthContext';
 import { storage } from './../../firebase/Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { v4 } from 'uuid'
+import { useAuth } from '../../Hooks/useAuth';
 
 
 
 export default function AddPost() {
     const [isLoading, setLoading] = useState(false)
-    let { userToken } = useContext(authContext)
+    let { userToken } = useAuth()
     let navigate = useNavigate()
     const [imageUpload, setImageUpload] = useState(null)
     const [imagePreview, setImagePreview] = useState(null);

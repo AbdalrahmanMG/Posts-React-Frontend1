@@ -1,19 +1,26 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Style from './Navbar.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'flowbite-react';
-import { authContext } from '../../context/AuthContext';
+// import { authContext } from '../../context/AuthContext';
+import { useAuth } from '../../Hooks/useAuth';
 
 
 export default function Navbar() {
-    let { userToken, setUserToken } = useContext(authContext)
+    let { userToken , logout} = useAuth()
     let navigate = useNavigate()
 
-    function logOut() {
-        localStorage.removeItem('userToken')
-        setUserToken(null)
-        navigate("/login")
-    }
+    // useEffect(()=>{
+    //     console.log('User token in navbar' , userToken);
+    // },[userToken])
+
+    // function logOut() {
+    //     localStorage.removeItem('userToken')
+    //     setUserToken(null)
+    //     navigate("/login")
+    // }
+
+    console.log("🍖",userToken);
 
     return (
         <div className="navbar  sticky top-0 start-0 left-0 z-50  shadow-zinc-100 shadow-lg bg-zinc-50 px-6 py-3">
@@ -35,7 +42,7 @@ export default function Navbar() {
                         <Link to="/register"><Button outline gradientDuoTone="redToYellow">Register</Button></Link>
                     </>
                     :
-                    <Button onClick={() => logOut()} gradientMonochrome="failure">Logout</Button>
+                    <Button onClick={logout} gradientMonochrome="failure">Logout</Button>
                 }
             </div>
         </div>

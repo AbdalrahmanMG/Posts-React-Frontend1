@@ -3,13 +3,13 @@ import Style from './Posts.module.css'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { authContext } from '../../context/AuthContext';
 import { Button } from 'flowbite-react';
+import { useAuth } from '../../Hooks/useAuth';
 
 
 export default function Posts() {
     const [posts, setPosts] = useState([])
-    let { userToken } = useContext(authContext)
+    let { userToken } = useAuth()
 
     useEffect(() => {
         axios.get('https://first-posts-backend.onrender.com/api/v1/posts').then(res => {
